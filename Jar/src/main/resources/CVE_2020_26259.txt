@@ -7,7 +7,7 @@
           <dataSource class='com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource'>
             <contentType>text/plain</contentType>
             <is class='com.sun.xml.internal.ws.util.ReadAllStream$FileStream'>
-              <tempFile>D:\tmp\test.txt</tempFile>
+              <tempFile>D:\tmp\Client.txt</tempFile>
             </is>
           </dataSource>
           <transferFlavors/>
@@ -15,6 +15,6 @@
         <dataLen>0</dataLen>
       </value>
     </jdk.nashorn.internal.objects.NativeString>
-    <string>test</string>
+    <string>Client</string>
   </entry>
 </map>

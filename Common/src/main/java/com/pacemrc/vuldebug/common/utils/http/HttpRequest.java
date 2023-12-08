@@ -1,4 +1,4 @@
-package com.pacemrc.vuldebug.common.utils;
+package com.pacemrc.vuldebug.common.utils.http;
 
 
 import org.apache.http.HttpEntity;

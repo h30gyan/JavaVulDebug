@@ -21,6 +21,7 @@
         <module>Struts2</module>
         <module>Weblogic</module>
         <module>Yongyou</module>
+        <module>ApacheOFbiz</module>
     </modules>
 
     <properties>

@@ -1,7 +1,7 @@
 package cve;
 
 import com.alibaba.fastjson.JSONObject;
-import com.pacemrc.vuldebug.common.utils.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 

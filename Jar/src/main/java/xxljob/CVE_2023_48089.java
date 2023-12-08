@@ -1,6 +1,6 @@
 package xxljob;
 
-import com.pacemrc.vuldebug.common.utils.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import org.apache.http.client.methods.HttpPost;
 
 import java.io.IOException;

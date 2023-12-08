@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.pacemrc.vuldebug.common.utils.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import org.apache.http.client.methods.HttpPost;
 
 /**

