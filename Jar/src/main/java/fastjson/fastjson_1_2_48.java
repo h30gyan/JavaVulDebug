@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSON;
 },
     "b":{
     "@type":"com.sun.rowset.JdbcRowSetImpl",
-            "dataSourceName":"rmi://10.41.230.66:1099/duhxn6",
+            "dataSourceName":"rmi://10.58.120.200:1099/duhxn6",
             "autoCommit":true
 }
 }

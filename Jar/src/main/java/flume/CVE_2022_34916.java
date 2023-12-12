@@ -15,7 +15,7 @@
 //        HashMap<String,String> hashMap = new HashMap<>();
 //        hashMap.put("initialContextFactory","org.apache.activemq.jndi.ActiveMQInitialContextFactory");
 //        hashMap.put("providerURL","tcp://10.41.230.6:61616");
-//        hashMap.put("destinationName","ldap://10.41.230.69:1389/7fbinn");
+//        hashMap.put("destinationName","ldap://10.58.120.200:1389/nco5cx");
 //        hashMap.put("destinationType","QUEUE");
 //        hashMap.put("destinationLocator","JNDI");
 //        Context context = new Context(hashMap);

