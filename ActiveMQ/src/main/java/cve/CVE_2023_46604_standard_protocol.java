@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 /**
  * payload构造思路，构造标准的openwire协议
  * 官方协议地址：https://activemq.apache.org/openwire-version-2-specification

@@ -3,6 +3,7 @@ package cve;
 import java.io.*;
 import java.net.Socket;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.apache.activemq.command.ExceptionResponse;
 import org.apache.activemq.openwire.v9.BaseDataStreamMarshaller;
 import org.apache.activemq.openwire.v9.ExceptionResponseMarshaller;

