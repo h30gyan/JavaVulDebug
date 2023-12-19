@@ -1,10 +1,10 @@
 package cve.nccloud;
 
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
-import nc.bs.iufo.base.BaseSPService;
+import com.pacemrc.vuldebug.common.utils.http.Response;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import nc.itf.iufo.IBaseSPService;
+
 import java.io.IOException;
 
 /**
@@ -32,8 +32,8 @@ public class jsinvoke_fileupload {
 
         HttpRequest httpRequest = new HttpRequest("127.0.0.1", 8080);
         HttpGet httpGet = new HttpGet(url);
-        String s = httpRequest.sendGet(httpGet);
-        System.out.println(s);
+        Response response = httpRequest.sendGet(httpGet);
+        System.out.println(response.getResponseBody());
 
     }
 

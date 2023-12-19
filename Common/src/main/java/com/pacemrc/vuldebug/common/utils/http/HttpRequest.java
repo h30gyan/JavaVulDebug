@@ -6,8 +6,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -24,6 +23,11 @@ import java.nio.charset.StandardCharsets;
 public class HttpRequest {
 
     private HttpClient httpClient;
+    private Response response;
+
+    {
+        this.response = new Response();
+    }
 
     public HttpRequest(String proxyHost, int proxyPort){
 
@@ -41,44 +45,43 @@ public class HttpRequest {
         this.httpClient = HttpClientBuilder.create().build();
     }
 
-    public String sendGet(HttpGet httpGet) throws IOException {
+    private void exec(HttpRequestBase httpRequest) throws IOException {
 
-        HttpResponse response = this.httpClient.execute(httpGet);
+        HttpResponse response = this.httpClient.execute(httpRequest);
+        int statusCode = response.getStatusLine().getStatusCode();
         HttpEntity responseEntity = response.getEntity();
         String responseBody = responseEntity != null ? EntityUtils.toString(responseEntity, StandardCharsets.UTF_8) : null;
-
-        return responseBody;
-
+        this.response.setResponseBody(responseBody);
+        this.response.setStatusCode(statusCode);
 
     }
 
-    private String exec(HttpPost httpPost) throws IOException {
-        HttpResponse response = this.httpClient.execute(httpPost);
-        HttpEntity responseEntity = response.getEntity();
-        String responseBody = responseEntity != null ? EntityUtils.toString(responseEntity, StandardCharsets.UTF_8) : null;
+    public Response sendGet(HttpGet httpGet) throws IOException {
+        this.exec(httpGet);
 
-        return responseBody;
+        return response;
     }
 
-    public String sendByteArrayPost(HttpPost postRequest, byte[] bytes) throws IOException {
+
+    public Response sendByteArrayPost(HttpPost postRequest, byte[] bytes) throws IOException {
 
         ByteArrayEntity entity = new ByteArrayEntity(bytes);
         postRequest.setEntity(entity);
-        String responseBody = this.exec(postRequest);
+        this.exec(postRequest);
 
-        return responseBody;
+        return response;
     }
 
-    public String sendStringPost(HttpPost postRequest, String postBody) throws IOException {
+    public Response sendStringPost(HttpPost postRequest, String postBody) throws IOException {
 
         StringEntity stringEntity = new StringEntity(postBody);
         postRequest.setEntity(stringEntity);
-        String responseBody = this.exec(postRequest);
+        this.exec(postRequest);
 
-        return responseBody;
+        return response;
 
     }
-    public String sendFormFilePost(HttpPost postRequest, String filePath) throws IOException {
+    public Response sendFormFilePost(HttpPost postRequest, String filePath) throws IOException {
 
         File file = new File(filePath);
         String fileName = file.getName();
@@ -88,8 +91,8 @@ public class HttpRequest {
                 .addPart("description", new StringBody("File description", ContentType.TEXT_PLAIN));
         HttpEntity multipartEntity = multipartEntityBuilder.build();
         postRequest.setEntity(multipartEntity);
-        String responseBody = this.exec(postRequest);
+        this.exec(postRequest);
 
-        return responseBody;
+        return response;
     }
 }

