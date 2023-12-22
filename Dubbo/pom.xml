@@ -14,7 +14,7 @@
     </modules>
 
     <properties>
-        <dubbo.version>2.7.9</dubbo.version>
+        <dubbo.version>3.1.5</dubbo.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
@@ -72,6 +72,12 @@
             <artifactId>hessian</artifactId>
             <version>4.0.51</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-rpc-dubbo</artifactId>
+            <version>${dubbo.version}</version>
         </dependency>
 
     </dependencies>

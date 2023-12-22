@@ -20,6 +20,7 @@
         <module>Weblogic</module>
         <module>Yongyou</module>
         <module>ApacheOFbiz</module>
+        <module>Kingdee</module>
     </modules>
 
     <properties>

