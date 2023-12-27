@@ -7,7 +7,7 @@ import com.sun.rowset.JdbcRowSetImpl;
 import org.apache.dubbo.common.io.Bytes;
 import org.apache.dubbo.common.serialize.Cleanable;
 import org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectOutput;
-
+import org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcResult;
 import ysoserial.payloads.util.Gadgets;
 import ysoserial.payloads.util.Reflections;
 

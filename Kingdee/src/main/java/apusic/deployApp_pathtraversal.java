@@ -1,5 +1,6 @@
 package apusic;
 
+import com.apusic.deploy.runtime.SecurityConstraint;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;

