@@ -12,7 +12,7 @@ public class DubboConsumer {
         context.start();
 
         DemoService demoService = (DemoService) context.getBean("demoService");
-        String result = demoService.sayHello("caofalin");
+        String result = demoService.sayHello("hello");
         System.out.println(result);
     }
 }

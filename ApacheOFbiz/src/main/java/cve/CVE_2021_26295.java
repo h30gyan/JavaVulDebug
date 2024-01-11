@@ -6,7 +6,9 @@ import com.pacemrc.vuldebug.common.utils.http.Response;
 import org.apache.http.client.methods.HttpPost;
 import ysoserial.payloads.ObjectPayload;
 
-
+/**
+ * affected version < 17.12.06
+ */
 public class CVE_2021_26295 {
 
 

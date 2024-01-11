@@ -9,7 +9,7 @@ import java.io.IOException;
  * WPS任意文件上传&读取漏洞
  * http://service.seeyon.com/patchtools/tp.html#/patchList?type=%E5%AE%89%E5%85%A8%E8%A1%A5%E4%B8%81&id=119
  */
-public class FileUpload_20220719 {
+public class wpsAssistServlet_fileupload {
 
     public static void main(String[] args) throws IOException {
 

@@ -21,7 +21,7 @@ public class createDataSource_jndi {
     }
 
     /**
-     * 服务器需存在
+     * 服务器需存在数据库驱动，此处手动添加了db2的依赖
      * @param args
      * @throws IOException
      */

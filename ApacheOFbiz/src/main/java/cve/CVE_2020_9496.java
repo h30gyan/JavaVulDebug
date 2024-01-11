@@ -8,6 +8,7 @@ import ysoserial.payloads.ObjectPayload;
 
 /**
  * xmlrpc反序列化
+ * affected version < 17.12.04
  */
 public class CVE_2020_9496 {
 

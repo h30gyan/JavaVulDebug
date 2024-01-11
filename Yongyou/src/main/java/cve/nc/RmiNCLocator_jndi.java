@@ -1,6 +1,7 @@
 package cve.nc;
 
 import nc.bs.framework.common.NCLocator;
+import nc.bs.framework.server.ServerNCLocator;
 
 import java.util.Properties;
 

