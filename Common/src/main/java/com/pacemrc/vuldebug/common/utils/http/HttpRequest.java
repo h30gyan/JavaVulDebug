@@ -1,6 +1,7 @@
 package com.pacemrc.vuldebug.common.utils.http;
 
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -19,6 +20,8 @@ import org.apache.http.util.EntityUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Iterator;
 
 public class HttpRequest {
 
@@ -27,6 +30,10 @@ public class HttpRequest {
 
     {
         this.response = new Response();
+    }
+
+    public HttpClient getHttpClient() {
+        return httpClient;
     }
 
     public HttpRequest(String proxyHost, int proxyPort){
@@ -48,11 +55,13 @@ public class HttpRequest {
     private void exec(HttpRequestBase httpRequest) throws IOException {
 
         HttpResponse response = this.httpClient.execute(httpRequest);
+        Header[] allHeaders = response.getAllHeaders();
         int statusCode = response.getStatusLine().getStatusCode();
         HttpEntity responseEntity = response.getEntity();
         String responseBody = responseEntity != null ? EntityUtils.toString(responseEntity, StandardCharsets.UTF_8) : null;
         this.response.setResponseBody(responseBody);
         this.response.setStatusCode(statusCode);
+        this.response.setHeaders(allHeaders);
 
     }
 
