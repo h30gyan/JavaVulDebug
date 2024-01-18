@@ -3,8 +3,7 @@
 
 # 配置
 本项目所有漏洞调试过程中用到的依赖包下载地址：
-
-TODO
+链接:https://caiyun.139.com/m/i?185CDkWVcGquj   提取码:zLuo
 
 ## 开启调试
 
