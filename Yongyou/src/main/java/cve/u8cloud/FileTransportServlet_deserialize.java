@@ -9,6 +9,7 @@ import java.util.zip.GZIPOutputStream;
 
 
 /**
+ * 漏洞：
  * U8cloud所有版本FileTransportServlet反序列化漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=eb893884876e4bc2acd04ee40dc4cb5f
  */

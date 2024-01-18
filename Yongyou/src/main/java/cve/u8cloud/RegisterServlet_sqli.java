@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 
 
 /**
+ * 漏洞：
  * U8cloud所有版本RegisterServlet接口存在SQL注入漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=c024cdc825ea415184caf87aacb68f9c
  */

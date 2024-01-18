@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 /**
+ * 漏洞：
  * NC/NCC文件服务器配置管理存在SQL注入漏洞
  * https://security.yonyou.com/#/noticeInfo?id=213
  */

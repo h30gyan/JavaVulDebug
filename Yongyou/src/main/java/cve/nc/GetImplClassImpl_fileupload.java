@@ -1,25 +1,22 @@
 package cve.nc;
 
-import bsh.BshClassManager;
-import bsh.NameSpace;
+
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import nc.bs.framework.common.InvocationInfo;
-import nc.bs.framework.comn.NetObjectInputStream;
+
 import nc.bs.framework.comn.NetObjectOutputStream;
-import nc.bs.framework.rmi.server.RMIContext;
-import nc.bs.framework.rmi.server.RMIHandlerImpl;
-import nc.impl.pubapp.pub.remoteservice.GetImplClassImpl;
-import nc.bs.framework.comn.serv.CommonServletDispatcher;
+
 import nc.vo.pubapp.remoteservice.RemoteTransParamsVO;
-import org.mozilla.javascript.Interpreter;
+
 import org.apache.http.client.methods.HttpPost;
-import ysoserial.payloads.ObjectPayload;
-
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 
-
+/**
+ * 漏洞：
+ * https://security.yonyou.com/#/noticeInfo?id=439
+ *
+ * 该漏洞尚未复现成功
+ */
 public class GetImplClassImpl_fileupload {
 
     public static InvocationInfo makeInvocationInfo() throws Exception {

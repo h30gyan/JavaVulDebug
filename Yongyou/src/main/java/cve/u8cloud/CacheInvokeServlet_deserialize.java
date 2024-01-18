@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.zip.GZIPOutputStream;
 
 /**
+ * 漏洞：
  * U8cloud所有版本CacheInvokeServlet反序列化漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=dc9efa413a644d88b55403cdc150cfea
  */

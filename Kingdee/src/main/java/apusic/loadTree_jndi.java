@@ -1,16 +1,19 @@
 package apusic;
 
-import com.apusic.util.FileUtil;
-import com.apusic.web.container.ServletInvocation;
-import com.apusic.web.servlet.FileServlet;
-import com.apusic.web.servlet.InvokerServlet;
+
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import com.pacemrc.vuldebug.common.utils.http.Response;
 import org.apache.http.client.methods.HttpPost;
 
-import javax.naming.InitialContext;
 import java.io.IOException;
 
+/**
+ * 漏洞：
+ *
+ *
+ * 关键调试类：
+ * com.apusic.aasadmin.monitor.web.jndi.JndiController#loadTree
+ */
 public class loadTree_jndi {
 
     public static void main(String[] args) throws IOException {

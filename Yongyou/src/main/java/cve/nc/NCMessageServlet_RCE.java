@@ -3,15 +3,17 @@ package cve.nc;
 
 import com.pacemrc.vuldebug.common.utils.basic.ObjectUtil;
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
-import nc.bs.framework.comn.NetObjectOutputStream;
-import nc.message.bs.NCMessageServlet;
+
 import org.apache.http.client.methods.HttpPost;
 import ysoserial.payloads.ObjectPayload;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
+/**
+ * 漏洞：
+ * https://security.yonyou.com/#/noticeInfo?id=416
+ *
+ * 关键调试类：
+ * nc.message.bs.NCMessageServlet
+ */
 public class NCMessageServlet_RCE {
 
     public static void main(String[] args) throws Exception {

@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import java.io.IOException;
 
 /**
+ * 漏洞：
  * NC Cloud系统的jsinvoke接口未授权访问漏洞
  * https://security.yonyou.com/#/noticeInfo?id=358
  */

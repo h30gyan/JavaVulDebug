@@ -5,6 +5,11 @@ import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import org.apache.http.client.methods.HttpPost;
 import ysoserial.payloads.ObjectPayload;
 
+/**
+ * 漏洞：
+ * NC系统的xbrl接口反序列化漏洞
+ * https://security.yonyou.com/#/noticeInfo?id=428
+ */
 public class XbrlPersistenceServlet_RCE {
 
     public static void main(String[] args) throws Exception {

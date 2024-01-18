@@ -6,6 +6,7 @@ import org.apache.http.client.methods.HttpGet;
 import java.io.IOException;
 
 /**
+ * 漏洞：
  * U8cloud所有版本存在PrintTemplateFileServlet任意文件删除漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=456abb6ce5544ef4a0065fd3a22c1552
  */

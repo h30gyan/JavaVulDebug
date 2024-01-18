@@ -6,6 +6,7 @@ import org.apache.http.client.methods.HttpPost;
 import ysoserial.payloads.ObjectPayload;
 
 /**
+ * 漏洞：
  * U8cloud所有版本ClientRequestDispatch反序列化漏洞
  * https://security.yonyou.com/#/patchInfo?foreignKey=33a417377013454099efa313fc9fcf89
  */

@@ -6,6 +6,14 @@ import nc.bs.framework.mx.monitor.MonitorServlet;
 import org.apache.http.client.methods.HttpPost;
 import ysoserial.payloads.ObjectPayload;
 
+
+/**
+ * 漏洞：
+ * https://security.yonyou.com/#/noticeInfo?id=350
+ *
+ * 关键调试类：
+ * nc.bs.framework.mx.monitor.MonitorServlet#doAction
+ */
 public class MonitorServlet_RCE {
 
     public static void main(String[] args) throws Exception {

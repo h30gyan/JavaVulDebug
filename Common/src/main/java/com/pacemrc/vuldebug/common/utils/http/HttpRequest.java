@@ -26,6 +26,11 @@ import java.util.Iterator;
 public class HttpRequest {
 
     private HttpClient httpClient;
+
+    public Response getResponse() {
+        return response;
+    }
+
     private Response response;
 
     {
@@ -52,7 +57,7 @@ public class HttpRequest {
         this.httpClient = HttpClientBuilder.create().build();
     }
 
-    private void exec(HttpRequestBase httpRequest) throws IOException {
+    public void exec(HttpRequestBase httpRequest) throws IOException {
 
         HttpResponse response = this.httpClient.execute(httpRequest);
         Header[] allHeaders = response.getAllHeaders();

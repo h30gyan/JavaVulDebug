@@ -4,22 +4,24 @@ import bsh.BshClassManager;
 import bsh.NameSpace;
 import com.pacemrc.vuldebug.common.utils.http.HttpRequest;
 import com.pacemrc.vuldebug.common.utils.http.Response;
-import com.ufida.zior.console.ActionInvokeService;
-import bsh.servlet.BshServlet;
-import  bsh.Interpreter;
-import nc.bs.framework.comn.NetObjectOutputStream;
+
 import org.apache.http.client.methods.HttpPost;
-import  com.ufida.zior.console.ActionHandlerServlet;
 
 import java.io.*;
 
-import nc.bs.framework.server.InvokerServlet;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.zip.GZIPOutputStream;
 
+/**
+ * 漏洞：
+ * 用友 NC/NCCloud ActionInvokeService命令执行漏洞
+ * https://security.yonyou.com/#/noticeInfo?id=349
+ *
+ * 关键调试类：
+ * com.ufida.zior.console.ActionHandlerServlet
+ * com.ufida.zior.console.ActionInvokeService
+ * bsh.Interpreter#eval
+ */
 public class ActionInvokeService_RCE {
-
 
     public static void main(String[] args) throws Exception {
 
